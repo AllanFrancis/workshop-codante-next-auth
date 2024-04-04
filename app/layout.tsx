@@ -4,6 +4,7 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { ModeToggle } from '@/components/ui/mode-toggle';
+import { SessionProvider } from 'next-auth/react';
 
 export const metadata: Metadata = {
   title: 'Next Auth - Workshop',
@@ -21,25 +22,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={cn(
           'min-h-screen bg-background font-sans antialiased  relative',
           fontSans.variable
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <div className="absolute top-5 right-5">
-            <ModeToggle />
-          </div>
+        <SessionProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <div className="absolute top-5 right-5">
+              <ModeToggle />
+            </div>
 
-          {children}
-        </ThemeProvider>
+            {children}
+          </ThemeProvider>
+        </SessionProvider>
       </body>
     </html>
   );
